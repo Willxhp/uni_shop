@@ -1,5 +1,8 @@
 <template>
   <view>
+    <!-- 使用自定义的搜索组件 -->
+    <my-search @click="gotoSearch"></my-search>
+    <!-- 滑动区域 -->
     <view class="scroll-view-container">
       <!-- 左侧滑动栏 -->
       <scroll-view class="left-scroll-view" scroll-y="true" :style="{height: wh + 'px'}">
@@ -44,7 +47,7 @@
       const systemInfo = uni.getSystemInfoSync()
       // console.log(systemInfo)
       // 获取手机屏幕可用范围高度
-      this.wh = systemInfo.windowHeight
+      this.wh = systemInfo.windowHeight - 50
       // 获取一级分类列表
       const {data} = await uni.$http.get('/api/public/v1/categories')
       // console.log(data)
@@ -59,6 +62,11 @@
         this.active = index
         this.cateLevel2 = this.cateList[index].children
         this.scrollTop = this.scrollTop === 0 ? 1 : 0
+      },
+      gotoSearch() {
+        uni.navigateTo({
+          url: '/subpkg/search/search'
+        })
       }
     }
   }
