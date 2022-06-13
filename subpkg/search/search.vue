@@ -59,7 +59,7 @@
           return
         }
         const {data} = await uni.$http.get('/api/public/v1/goods/qsearch', {query: this.kw})
-        if (data.meta.status !== 200) return uni.showMsg()
+        if (data.meta.status !== 200) return uni.$showMsg()
         this.searchList = data.message
       },
       saveSearchHistory() {

@@ -52,7 +52,7 @@
       const {data} = await uni.$http.get('/api/public/v1/categories')
       // console.log(data)
       if (data.meta.status !== 200) {
-        return uni.showMsg()
+        return uni.$showMsg()
       }
       this.cateList = data.message
       this.cateLevel2 = data.message[0].children

@@ -82,7 +82,7 @@
       async getNavList() {
         const {data} = await uni.$http.get('/api/public/v1/home/catitems')
         if (data.meta.status !== 200) {
-          return uni.showMsg()
+          return uni.$showMsg()
         }
         this.navList = data.message
       },
@@ -98,7 +98,7 @@
       async getFloorList() {
         const {data} = await uni.$http.get('/api/public/v1/home/floordata')
         if (data.meta.status !== 200) {
-          return uni.showMsg()
+          return uni.$showMsg()
         }
         // this.floorList = data.message
         // 对数据进行处理
