@@ -30,7 +30,10 @@
     methods: {
       searchBoxHandler() {
         // console.log('ok')
-        this.$emit('click')
+        // this.$emit('click')
+        uni.navigateTo({
+          url: '/subpkg/search/search'
+        })
       }
     }
   }

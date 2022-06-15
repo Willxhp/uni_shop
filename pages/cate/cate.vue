@@ -1,7 +1,7 @@
 <template>
   <view>
     <!-- 使用自定义的搜索组件 -->
-    <my-search @click="gotoSearch"></my-search>
+    <my-search></my-search>
     <!-- 滑动区域 -->
     <view class="scroll-view-container">
       <!-- 左侧滑动栏 -->
@@ -29,7 +29,9 @@
 </template>
 
 <script>
+  import badgeMixin from '@/mixins/tabbar-badge.js'
   export default {
+    mixins: [badgeMixin],
     data() {
       return {
         // 设备可用屏幕的高度
@@ -62,11 +64,6 @@
         this.active = index
         this.cateLevel2 = this.cateList[index].children
         this.scrollTop = this.scrollTop === 0 ? 1 : 0
-      },
-      gotoSearch() {
-        uni.navigateTo({
-          url: '/subpkg/search/search'
-        })
       }
     }
   }

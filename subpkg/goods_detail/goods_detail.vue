@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="goods">
     <!-- 轮播图区域 -->
     <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
       <swiper-item v-for="(item, i) in goodsInfo.pics" :key="i">
@@ -41,6 +41,11 @@
 </template>
 
 <script>
+  import {
+    mapState,
+    mapMutations,
+    mapGetters
+  } from 'vuex'
   export default {
     data() {
       return {
@@ -51,7 +56,7 @@
         }, {
           icon: 'cart',
           text: '购物车',
-          info: 2
+          info: 0
         }],
         buttonGroup: [{
             text: '加入购物车',
@@ -66,10 +71,25 @@
         ]
       }
     },
+    computed: {
+      ...mapState('m_cart', []),
+      ...mapGetters('m_cart', ['total'])
+    },
+    watch: {
+      total: {
+        handler(newVal) {
+          let findResult = this.options.find(x => x.text === '购物车')
+          // console.log(findResult);
+          findResult.info = newVal
+        },
+        immediate: true
+      }
+    },
     onLoad(options) {
       this.getGoodsInfo(options.goods_id)
     },
     methods: {
+      ...mapMutations('m_cart', ['addCart']),
       async getGoodsInfo(goodsId) {
         const {
           data
@@ -77,7 +97,7 @@
         if (data.meta.status !== 200) return uni.$showMsg()
         // 解决图片下方小空白和价格闪烁问题
         data.message.goods_introduce = data.message.goods_introduce.replace(/<img /g, '<img style="display:block;" ')
-          .replace(/webp/, 'jpeg')
+
         this.goodsInfo = data.message
       },
       preview(i) {
@@ -92,12 +112,29 @@
             url: '/pages/cart/cart'
           })
         }
+      },
+      buttonClick(e) {
+        if (e.content.text === '加入购物车') {
+          // { goods_id, goods_name, goods_price, goods_count, goods_small_logo, goods_state }
+          const goods = {
+            goods_id: this.goodsInfo.goods_id,
+            goods_name: this.goodsInfo.goods_name,
+            goods_price: this.goodsInfo.goods_price,
+            goods_count: 1,
+            goods_small_logo: this.goodsInfo.goods_small_logo,
+            goods_state: true
+          }
+          this.addCart(goods)
+        }
       }
     }
   }
 </script>
 
 <style lang="scss">
+  .goods {
+    padding-bottom: 50px;
+  }
   swiper {
     height: 750rpx;
 

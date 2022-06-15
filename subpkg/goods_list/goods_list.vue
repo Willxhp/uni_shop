@@ -1,11 +1,14 @@
 <template>
   <view>
     <!-- 商品列表 -->
-    <view class="goods-list">
+    <view class="goods-list" v-if="total !== 0">
       <!-- 商品项 -->
       <view v-for="(good, i) in goodsList" :key="i" @click="gotoDetail(good)">
         <my-goods :good="good"></my-goods>
       </view>
+    </view>
+    <view v-else>
+      暂无相关商品！
     </view>
   </view>
 </template>
@@ -63,7 +66,9 @@
       this.total = 0
       this.isLoading = false
       // 重新发起数据请求
-      this.getGoodsList(() => {uni.stopPullDownRefresh()})
+      this.getGoodsList(() => {
+        uni.stopPullDownRefresh()
+      })
     },
     methods: {
       async getGoodsList(cb) {
@@ -76,14 +81,9 @@
         this.isLoading = false
         cb && cb()
         if (data.meta.status !== 200) return uni.$showMsg()
-        if (data.message.goods.length === 0 ) {
-          this.goodsList = this.defaultGoodsList
-          this.total = 1
-        }
-        else {
-          this.goodsList = [...this.goodsList, ...data.message.goods]
-          this.total = data.message.total
-        }
+        // console.log(data.message);
+        this.goodsList = [...this.goodsList, ...data.message.goods]
+        this.total = data.message.total
       },
       gotoDetail(good) {
         uni.navigateTo({

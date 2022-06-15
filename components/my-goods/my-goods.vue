@@ -2,7 +2,8 @@
     <view class="goods-item">
       <!-- 左侧图片区域 -->
       <view class="goods-item-left">
-        <image :src="good.goods_small_logo || defaultImgSrc" mode=""></image>
+        <slot name="radio"></slot>
+        <image :src="good.goods_small_logo || defaultImgSrc"></image>
       </view>
       <!-- 右侧商品描述 -->
       <view class="goods-item-right">
@@ -11,6 +12,8 @@
         </view>
         <view class="goods-info-box">
           <view class="goods-price">￥{{good.goods_price | tofixed}}</view>
+          <!-- numbarBox区域 -->
+          <slot name="numberBox"></slot>
         </view>
       </view>
     </view>
@@ -46,7 +49,8 @@
 
       .goods-item-left {
         margin-right: 5px;
-
+        display: flex;
+        align-items: center;
         image {
           width: 100px;
           height: 100px;
@@ -58,12 +62,16 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
+        flex: 1;
         .goods-name {
           font-size: 14px
         }
 
         .goods-info-box {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          
           .goods-price {
             font-size: 16px;
             color: #c00000;
