@@ -47,7 +47,7 @@
         const [err, res] = await uni.chooseAddress()
         if (err === null) {
           // this.address = res
-          console.log(res)
+          // console.log(res)
           this.updateAddress(res)
         }
         

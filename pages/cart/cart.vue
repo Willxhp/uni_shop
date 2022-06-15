@@ -13,7 +13,7 @@
     <!-- 商品列表区域 -->
       <uni-swipe-action>
         <block v-for="(good, i) in cart" :key="good.goods_id">
-          <uni-swipe-action-item :right-options="options" @click="swipeClickHandler(good)">
+          <uni-swipe-action-item :right-options="options" @click="swipeClickHandler(good)" >
             <my-goods :good="good">
               <radio :checked="good.goods_state" color="#c00000" slot="radio" style="transform:scale(0.7)"
                 @click="radioChangeHandler(good)"></radio>
